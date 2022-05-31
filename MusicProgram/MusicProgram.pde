@@ -14,12 +14,25 @@ void setup()
 {
   fullScreen(); //size(500, 600);, Display Geometry is Mandatory
   minim = new Minim(this);//Loads from data directory, loadFile should also load from project folder, like loadImage()
-  song1 = minim.loadFile(""); //able to pass absolute path, file name, and URL
+  song1 = minim.loadFile("MusicDownload/Chasing the Dragon.mp3"); //able to pass absolute path, file name & extension, and URL
 }//End Setup
 //
 void draw() {}//End Draw
 //
-void keyPressed() {}//End keyPressed
+void keyPressed() 
+{
+  //Only press a number for this code
+  String keystr = String.valueOf(key);
+  println("Number of Repeats is", keystr);
+  int num = int(keystr);
+  song1.loop(num);
+  //
+  /* Previeous Play Button & Loop Button
+  int loopNum = 2; //Local Variables plays once and loops twice
+  //song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
+  if ( key=='l' || key=='L' ) song1.loop(loopNum); //Parameter is number of repeats
+  */
+}//End keyPressed
 //
 void mousePressed() {}//End mousePressed
 //
