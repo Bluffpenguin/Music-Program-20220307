@@ -26,7 +26,7 @@ void keyPressed()
 {
   //Only press a number for this code
   if ( key=='1' || key=='9') { //Looping Functions
-    //Note: "9" is assumed to be massive!
+    //Note: "9" is assumed to be massive! Simulate Infinite
     if ( key=='1' ) println("Looping 1 times");
     if ( key=='1' ) println("Looping 9 times");
     String keystr = String.valueOf(key);
@@ -34,7 +34,7 @@ void keyPressed()
     int num = int(keystr);
     song1.loop(num);
   }//End Loop
-  if ( key>='3' && key!='9') println("I do not loop that much! Try again.");
+  if ( key>='2' && key!='9') println("I do not loop that much! Try again.");
   //
   //Alternate Play Button
   if ( key=='p' || key=='P' ) song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
