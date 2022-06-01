@@ -28,7 +28,7 @@ void keyPressed()
   if ( key=='1' || key=='9') { //Looping Functions
     //Note: "9" is assumed to be massive! Simulate Infinite
     if ( key=='1' ) println("Looping 1 times");
-    if ( key=='1' ) println("Looping 9 times");
+    if ( key=='9' ) println("Looping 9 times"); //Simulating Infinity
     String keystr = String.valueOf(key);
     println("Number of Repeats is", keystr);
     int num = int(keystr);
@@ -43,6 +43,13 @@ void keyPressed()
    int loopNum = 2; //Local Variables plays once and loops twice
    if ( key=='l' || key=='L' ) song1.loop(loopNum); //Parameter is number of repeats
    */
+  //
+  if ( song1.isMuted() ) 
+  {//MUTE Button
+    song1.unmute();
+  } else {
+    song1.mute();
+  }//End MUTE
 }//End keyPressed
 //
 void mousePressed() {
