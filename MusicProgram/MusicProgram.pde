@@ -17,23 +17,35 @@ void setup()
   song1 = minim.loadFile("MusicDownload/Chasing the Dragon.mp3"); //able to pass absolute path, file name & extension, and URL
 }//End Setup
 //
-void draw() {}//End Draw
+void draw() {
+  if ( song1.isLooping() ) println("There are", song1.loopCount()-1, "loops left");
+  if ( song1.isPlaying() && !song1.isLooping() ) println("Play Once");
+}//End Draw
 //
 void keyPressed() 
 {
   //Only press a number for this code
-  String keystr = String.valueOf(key);
-  println("Number of Repeats is", keystr);
-  int num = int(keystr);
-  song1.loop(num);
+  if ( key=='1' || key=='9') { //Looping Functions
+    //Note: "9" is assumed to be massive!
+    if ( key=='1' ) println("Looping 1 times");
+    if ( key=='1' ) println("Looping 9 times");
+    String keystr = String.valueOf(key);
+    println("Number of Repeats is", keystr);
+    int num = int(keystr);
+    song1.loop(num);
+  }//End Loop
+  if ( key>='3' && key!='9') println("I do not loop that much! Try again.");
+  //
+  //Alternate Play Button
+  if ( key=='p' || key=='P' ) song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
   //
   /* Previeous Play Button & Loop Button
-  int loopNum = 2; //Local Variables plays once and loops twice
-  //song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
-  if ( key=='l' || key=='L' ) song1.loop(loopNum); //Parameter is number of repeats
-  */
+   int loopNum = 2; //Local Variables plays once and loops twice
+   if ( key=='l' || key=='L' ) song1.loop(loopNum); //Parameter is number of repeats
+   */
 }//End keyPressed
 //
-void mousePressed() {}//End mousePressed
+void mousePressed() {
+}//End mousePressed
 //
 //End MAIN
