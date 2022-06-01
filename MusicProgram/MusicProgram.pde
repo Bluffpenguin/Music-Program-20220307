@@ -18,8 +18,10 @@ void setup()
 }//End Setup
 //
 void draw() {
-  if ( song1.isLooping() ) println("There are", song1.loopCount()-1, "loops left");
+  if ( song1.isLooping() ) println("There are", song1.loopCount(), "loops left");
   if ( song1.isPlaying() && !song1.isLooping() ) println("Play Once");
+  //
+  println("Song Position", song1.position(), "Song Length", song1.length() );
 }//End Draw
 //
 void keyPressed() 
@@ -36,20 +38,39 @@ void keyPressed()
   }//End Loop
   if ( key>='2' && key!='9') println("I do not loop that much! Try again.");
   //
-  //Alternate Play Button
-  if ( key=='p' || key=='P' ) song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
+  //Alternate Play-Pause Button
+  if ( key=='p' || key=='P' ) {
+    if ( song1.isPlaying() ) {
+      song1.pause();
+    } else {
+      song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
+    }
+  }//End PLAY-PAUSE Button
   //
   /* Previeous Play Button & Loop Button
    int loopNum = 2; //Local Variables plays once and loops twice
    if ( key=='l' || key=='L' ) song1.loop(loopNum); //Parameter is number of repeats
    */
   //
-  if ( song1.isMuted() ) 
-  {//MUTE Button
-    song1.unmute();
-  } else {
-    song1.mute();
+  if ( key=='m' || key=='M' ) {//MUTE Button
+    if ( song1.isMuted() ) 
+    {//MUTE Button
+      song1.unmute();
+    } else {
+      song1.mute();
+    }
   }//End MUTE
+  //
+  //STOP Button
+  if ( key=='s' || key=='S' ) {
+    if ( song1.isPlaying()) {//STOP Button
+      song1.pause();
+      song1.rewind();
+    } else {
+      song1.rewind();
+    }
+  }//End STOP Button
+  //End STOP Button
 }//End keyPressed
 //
 void mousePressed() {
