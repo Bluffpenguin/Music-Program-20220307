@@ -36,21 +36,27 @@ void keyPressed()
     int num = int(keystr);
     song1.loop(num);
   }//End Loop
+  if (key=='l' || key=='L') song1.loop(); //No parameter means "infinite loops"
   if ( key>='2' && key!='9') println("I do not loop that much! Try again.");
   //
   //Alternate Play-Pause Button
   if ( key=='p' || key=='P' ) {
     if ( song1.isPlaying() ) {
       song1.pause();
+    } else if (song1.position() >= song1.length()-song1.length()*1/6) { //Special Situation: at the end of the song (built in stop button)
+      //End of Song Calculation: hardcode 1000 or use formula
+      //Alternate formula song1.length() - song1.position() <= 1000
+      song1.rewind();
+      song1.play();
     } else {
       song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
     }
   }//End PLAY-PAUSE Button
   //
-  /* Previeous Play Button & Loop Button
-   int loopNum = 2; //Local Variables plays once and loops twice
-   if ( key=='l' || key=='L' ) song1.loop(loopNum); //Parameter is number of repeats
-   */
+  //Forward and Reverse Button
+  //Built-in question .isPlaying()
+  if ( key=='f' || key=='F' ) song1.skip(1000); // skip forward 1 second (1000 milliseconds)
+  if ( key=='r' || key=='R' ) song1.skip(-1000); // skip backward 1 second (1000 milliseconds)
   //
   if ( key=='m' || key=='M' ) {//MUTE Button
     if ( song1.isMuted() ) 
