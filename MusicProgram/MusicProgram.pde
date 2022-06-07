@@ -8,8 +8,10 @@ import ddf.minim.ugens.*;
 //
 //Global Variables
 Minim minim; //creates object to access all functions
-AudioPlayer song1; //creates "Play List" variables holding extensions WAV, AIFF, AU, SND, & MP3
-AudioMetaData songMetaData1; //song1's meta data
+int numberofSongs = 3;
+AudioPlayer[] song = new AudioPlayer[numberofSongs]; //creates "Play List" variables holding extensions WAV, AIFF, AU, SND, & MP3
+AudioMetaData[] songMetaData = new AudioMetaData[numberofSongs]; //song1's meta data
+int currentSong = numberofSongs - numberofSongs;
 //
 color black=0, purple=#BE07DB; //Grey Scale vs. Hexidecimal
 PFont titleFont;
@@ -18,20 +20,34 @@ void setup()
 {
   fullScreen(); //size(500, 600);, Display Geometry is Mandatory
   minim = new Minim(this);//Loads from data directory, loadFile should also load from project folder, like loadImage()
-  song1 = minim.loadFile("MusicDownload/Chasing the Dragon.mp3"); //able to pass absolute path, file name & extension, and URL
-  songMetaData1 = song1.getMetaData(); //reads song meta 1, like song1
+  song[currentSong] = minim.loadFile("MusicDownload/Chasing the Dragon.mp3"); //able to pass absolute path, file name & extension, and URL
+  song[currentSong+=1] = minim.loadFile("MusicDownload/Campfire - Telecasted.mp3");
+  song[currentSong+=1] = minim.loadFile("MusicDownload/Retribution - NEFFEX.mp3");
+  //song[3]
+  //
+  currentSong-=currentSong; // currentSong = currentSong - currentSong
+  for ( int i= currentSong; i<song.length; i++) {
+    songMetaData[i] = song[i].getMetaData();
+  }//End Meta Data
+  /* FOR summarizes...
+   songMetaData[0] = song[0].getMetaData(); 
+   songMetaData[1] = song[1].getMetaData();
+   songMetaData[2] = song[2].getMetaData();
+   //songMetaData[0] = song[0].getMetaData();
+   */
   titleFont = createFont ("Corbel", 55);
   //
   println("Start of Console");
   println("Click the console to Finish Starting this program"); //See previous lesson for OS-level Button
-  println("Title:", songMetaData1.title(), "by", songMetaData1.author() );
+  println("Title:", songMetaData[currentSong].title(), "by", songMetaData[currentSong].author() );
 }//End Setup
 //
 void draw() {
-  if ( song1.isLooping() ) println("There are", song1.loopCount(), "loops left");
-  if ( song1.isPlaying() && !song1.isLooping() ) println("Play Once");
+  if ( song[currentSong].isLooping() ) println("There are", song[currentSong].loopCount(), "loops left");
+  if ( song[currentSong].isPlaying() && !song[currentSong].isLooping() ) println("Play Once");
   //
-  //println("Song Position", song1.position(), "Song Length", song1.length() );
+  println("Computer Number of Current Song:", currentSong);
+  println("Song Position", song[currentSong].position(), "Song Length", song[currentSong].length() );
   //
   background (black);
   rect(displayWidth*1/4, displayHeight*0, displayWidth*1/2, displayHeight*1/10);
@@ -39,7 +55,7 @@ void draw() {
   textAlign (CENTER, CENTER); //Align X&Y, see Processing.org / Reference
   //Values: [LEFT | CENTER | RIGHT] & [TOP | CENTER | BOTTOM | BASELINE]
   textFont(titleFont, 100); //Change the number until it fits, largest font size
-  text(songMetaData1.title(), displayWidth*1/4, displayHeight*0, displayWidth*1/2, displayHeight*1/10);
+  text(songMetaData[currentSong].title(), displayWidth*1/4, displayHeight*0, displayWidth*1/2, displayHeight*1/10);
   fill(255); //Reset to white for rest of the program
 }//End Draw
 //
@@ -53,49 +69,56 @@ void keyPressed()
     String keystr = String.valueOf(key);
     println("Number of Repeats is", keystr);
     int num = int(keystr);
-    song1.loop(num);
+    song[currentSong].loop(num);
   }//End Loop
-  if (key=='l' || key=='L') song1.loop(); //No parameter means "infinite loops"
+  if (key=='l' || key=='L') song[currentSong].loop(); //No parameter means "infinite loops"
   if ( key>='2' && key!='9') println("I do not loop that much! Try again.");
   //
   //Alternate Play-Pause Button
   if ( key=='p' || key=='P' ) {
-    if ( song1.isPlaying() ) {
-      song1.pause();
-    } else if (song1.position() >= song1.length()-song1.length()*1/6) { //Special Situation: at the end of the song (built in stop button)
+    if ( song[currentSong].isPlaying() ) {
+      song[currentSong].pause();
+    } else if (song[currentSong].position() >= song[currentSong].length()-song[currentSong].length()*1/6) { //Special Situation: at the end of the song (built in stop button)
       //End of Song Calculation: hardcode 1000 or use formula
       //Alternate formula song1.length() - song1.position() <= 1000
-      song1.rewind();
-      song1.play();
+      song[currentSong].rewind();
+      song[currentSong].play();
     } else {
-      song1.play(); //Parameter is milli-seconds from start of audio file to start of playing
+      song[currentSong].play(); //Parameter is milli-seconds from start of audio file to start of playing
     }
   }//End PLAY-PAUSE Button
   //
   //Forward and Reverse Button
   //Built-in question .isPlaying()
-  if ( key=='f' || key=='F' ) song1.skip(1000); // skip forward 1 second (1000 milliseconds)
-  if ( key=='r' || key=='R' ) song1.skip(-1000); // skip backward 1 second (1000 milliseconds)
+  if ( key=='f' || key=='F' ) song[currentSong].skip(1000); // skip forward 1 second (1000 milliseconds)
+  if ( key=='r' || key=='R' ) song[currentSong].skip(-1000); // skip backward 1 second (1000 milliseconds)
   //
   if ( key=='m' || key=='M' ) {//MUTE Button
-    if ( song1.isMuted() ) 
+    if ( song[currentSong].isMuted() ) 
     {//MUTE Button
-      song1.unmute();
+      song[currentSong].unmute();
     } else {
-      song1.mute();
+      song[currentSong].mute();
     }
   }//End MUTE
   //
   //STOP Button
   if ( key=='s' || key=='S' ) {
-    if ( song1.isPlaying()) {//STOP Button
-      song1.pause();
-      song1.rewind();
+    if ( song[currentSong].isPlaying()) {//STOP Button
+      song[currentSong].pause();
+      song[currentSong].rewind();
     } else {
-      song1.rewind();
+      song[currentSong].rewind();
     }
   }//End STOP Button
-  //End STOP Button
+  //
+  if ( key=='n' || key=='N' ) {//Next Button
+    if ( song[currentSong].isPlaying() ) {
+      //Serious Problems, playing multiple songs at the same time
+    } else {
+      currentSong++;
+    }
+  }//End Next Button
 }//End keyPressed
 //
 void mousePressed() {
