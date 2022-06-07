@@ -11,7 +11,8 @@ Minim minim; //creates object to access all functions
 AudioPlayer song1; //creates "Play List" variables holding extensions WAV, AIFF, AU, SND, & MP3
 AudioMetaData songMetaData1; //song1's meta data
 //
-color black=0, purple=##BE07DB //Grey Scale vs. Hexidecimal
+color black=0, purple=#BE07DB; //Grey Scale vs. Hexidecimal
+PFont titleFont;
 //
 void setup() 
 {
@@ -19,6 +20,7 @@ void setup()
   minim = new Minim(this);//Loads from data directory, loadFile should also load from project folder, like loadImage()
   song1 = minim.loadFile("MusicDownload/Chasing the Dragon.mp3"); //able to pass absolute path, file name & extension, and URL
   songMetaData1 = song1.getMetaData(); //reads song meta 1, like song1
+  titleFont = createFont ("Corbel", 55);
   //
   println("Start of Console");
   println("Click the console to Finish Starting this program"); //See previous lesson for OS-level Button
@@ -36,7 +38,7 @@ void draw() {
   fill(purple); //Ink, hexidecimal copied from Color Selector
   textAlign (CENTER, CENTER); //Align X&Y, see Processing.org / Reference
   //Values: [LEFT | CENTER | RIGHT] & [TOP | CENTER | BOTTOM | BASELINE]
-  textFont(titleFont, 30); //Change the number until it fits, largest font size
+  textFont(titleFont, 100); //Change the number until it fits, largest font size
   text(songMetaData1.title(), displayWidth*1/4, displayHeight*0, displayWidth*1/2, displayHeight*1/10);
   fill(255); //Reset to white for rest of the program
 }//End Draw
