@@ -11,6 +11,8 @@ Minim minim; //creates object to access all functions
 AudioPlayer song1; //creates "Play List" variables holding extensions WAV, AIFF, AU, SND, & MP3
 AudioMetaData songMetaData1; //song1's meta data
 //
+color black=0, purple=##BE07DB //Grey Scale vs. Hexidecimal
+//
 void setup() 
 {
   fullScreen(); //size(500, 600);, Display Geometry is Mandatory
@@ -27,7 +29,16 @@ void draw() {
   if ( song1.isLooping() ) println("There are", song1.loopCount(), "loops left");
   if ( song1.isPlaying() && !song1.isLooping() ) println("Play Once");
   //
-  println("Song Position", song1.position(), "Song Length", song1.length() );
+  //println("Song Position", song1.position(), "Song Length", song1.length() );
+  //
+  background (black);
+  rect(displayWidth*1/4, displayHeight*0, displayWidth*1/2, displayHeight*1/10);
+  fill(purple); //Ink, hexidecimal copied from Color Selector
+  textAlign (CENTER, CENTER); //Align X&Y, see Processing.org / Reference
+  //Values: [LEFT | CENTER | RIGHT] & [TOP | CENTER | BOTTOM | BASELINE]
+  textFont(titleFont, 30); //Change the number until it fits, largest font size
+  text(songMetaData1.title(), displayWidth*1/4, displayHeight*0, displayWidth*1/2, displayHeight*1/10);
+  fill(255); //Reset to white for rest of the program
 }//End Draw
 //
 void keyPressed() 
