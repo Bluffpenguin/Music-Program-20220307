@@ -115,10 +115,26 @@ void keyPressed()
   if ( key=='n' || key=='N' ) {//Next Button
     if ( song[currentSong].isPlaying() ) {
       //Serious Problems, playing multiple songs at the same time
+      song[currentSong].pause();
+      song[currentSong].rewind();
+      if ( currentSong >= song.length-1) {//CATCH ArrayIndexOutOfBoundsException
+        currentSong -= currentSong;
+      } else {
+        currentSong++; //Error if greater than 2
+      }//End of CATCH
+      song[currentSong].play();
     } else {
-      currentSong++;
+      song[currentSong].rewind(); ////Built-in rewind feature so all songs start at ZERO
+      if ( currentSong >= song.length-1) {//CATCH ArrayIndexOutOfBoundsException
+        currentSong -= currentSong;
+      } else {
+        currentSong++; //Error if greater than 2
+      }//End of CATCH
+      song[currentSong].play();
     }
   }//End Next Button
+  //
+  if () {}//End Back Button
 }//End keyPressed
 //
 void mousePressed() {
