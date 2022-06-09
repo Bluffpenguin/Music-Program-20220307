@@ -126,10 +126,22 @@ void keyPressed()
     }
   }//End Next Button
   //
-  //if () {}//End Back Button
-}//End keyPressed
-//
-void mousePressed() {
-}//End mousePressed
-//
-//End MAIN
+  if ( key=='b' || key=='B' ) {
+    if ( song[currentSong].isPlaying() ) {
+      //Serious Problems, playing multiple songs at the same time
+      song[currentSong].pause();
+      song[currentSong].rewind();
+      backButtonArrayCatch();
+      song[currentSong].play();
+    } else {
+      song[currentSong].rewind(); ////Built-in rewind feature so all songs start at ZERO
+      backButtonArrayCatch();
+      song[currentSong].play();
+    }//End Back Button
+  }
+  }//End keyPressed
+  //
+  void mousePressed() {
+  }//End mousePressed
+  //
+  //End MAIN
